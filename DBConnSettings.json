@@ -1,0 +1,34 @@
+{
+    "ConnectionSQLite": {
+         "JDBCConnection": "jdbc:sqlite:CurrencyChartFXMaven.db"
+         },
+    "ConnectionMySQL": {
+         "JDBCConnection": "jdbc:mysql://localhost:3306/test_schemas",
+         "DBUser": "test_user",
+         "DBPassword": "12345678",
+         "DBInsertSchema": "test_schemas",
+         "DBInsertProcedure": "INSERT_CURS"
+         },
+    "ConnectionPostgreSQL": {
+         "JDBCConnection": "jdbc:postgresql://localhost/test_database",
+         "DBUser": "test_user",
+         "DBPassword": "12345678",
+         "DBInsertSchema": "test_schemas",
+         "DBInsertProcedure": "INSERT_CURS"
+         },
+    "ConnectionOracle": {
+         "JDBCConnection": "jdbc:oracle:thin:@localhost:1521:XE",
+         "DBUser": "TEST_USER",
+         "DBPassword": "TEST_USER",
+         "DBInsertSchema": "TEST_USER",
+         "DBInsertProcedure": "INSERT_KURS"
+         },
+    "ConnectionMSSQL": {
+         "JDBCConnection": "jdbc:sqlserver://localhost;databaseName=DatabaseTestDB;integratedSecurity=true;encrypt=false;",
+         "DBInsertProcedure": "INSERT_KURS"
+         },
+    "ConnectionAzureSQL": {
+         "JDBCConnection": "jdbc:sqlserver://dbserver-test-lia.database.windows.net:1433;database=TestDB;user=admin-dbserver;password=!Dddsfgdfgdfg34534534534;encrypt=true;loginTimeout=30;",
+         "DBInsertProcedure": "INSERT_KURS"
+         }
+}

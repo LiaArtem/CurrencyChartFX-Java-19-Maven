@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Main-Class: com.example.currencychartfxmaven.Main
+Class-Path: mysql-connector-java-8.0.29.jar javafx-fxml-18.0.2-win.jar j
+ avafx-base-18.0.2.jar javafx-fxml-18.0.2.jar stax2-api-4.2.1.jar javafx
+ -graphics-18.0.2.jar javafx-graphics-18.0.2-win.jar sqlite-jdbc-3.36.0.
+ 3.jar itext-2.1.7.js10.jar commons-collections-3.2.2.jar jackson-annota
+ tions-2.13.3.jar jcommon-1.0.23.jar ojdbc11-21.6.0.0.1.jar protobuf-jav
+ a-3.19.4.jar javax.activation-api-1.2.0.jar javafx-controls-18.0.2-win.
+ jar checker-qual-3.5.0.jar gson-2.9.0.jar jaxb-api-2.3.1.jar jfreechart
+ -1.0.19.jar jasperreports-fonts-6.20.0.jar bcprov-jdk15on-1.70.jar ecj-
+ 3.21.0.jar jackson-dataformat-xml-2.13.3.jar woodstox-core-6.2.7.jar ja
+ vafx-base-18.0.2-win.jar postgresql-42.4.0.jar commons-collections4-4.2
+ .jar mssql-jdbc-10.2.1.jre17.jar jackson-databind-2.13.3.jar commons-be
+ anutils-1.9.4.jar commons-logging-1.1.1.jar jasperreports-6.20.0.jar bc
+ util-jdk15on-1.70.jar jackson-core-2.13.3.jar commons-digester-2.1.jar 
+ javafx-controls-18.0.2.jar
+
