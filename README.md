@@ -1,7 +1,7 @@
 # CurrencyChartFX-Java-18-Maven
 
-Maven JavaFX IntelliJ IDEA project - Construction of charts of currencies of NBU on years for watching of tendencies of change.
-- Java 18, JavaFX, Maven, JasperReports, JDBC (Azure SQL, MS SQL 2019, Oracle XE 21c, PostgreSQL 14, SQLite, MySQL).
+Maven JavaFX IntelliJ IDEA project - Java 18, JavaFX, Maven, JasperReports, JDBC (Oracle, MS SQL, Azure SQL, PostgreSQL, MySQL, IBM DB2, SQLite).
+Construction of charts of currencies of NBU on years for watching of tendencies of change.
 
 Первичная настройка:
 ---------------------------------------------------------------------------------
@@ -85,6 +85,24 @@ Maven JavaFX IntelliJ IDEA project - Construction of charts of currencies of NBU
 ---------------------------------------------------------------------------------
 - SQLite
   - ничего, создание таблиц, представлений и процедур автоматизировано в коде программы
+
+---------------------------------------------------------------------------------
+- IBM DB2
+  - устанавливаем DB2 Версии 11.5.7.0 Server Editions (Db2 Community Edition 11.5.7.0)  (логин: db2admin, пароль: 12345678.
+  - создаем базу данных: SAMPLE (Create sample database)
+  - выдаем админ. права пользователю db2admin:
+    - запускаем из Пуск -> Командное окно DB2 - Администратор
+    -> db2 connect to SAMPLE
+    -> db2 grant DBADM on DATABASE to user db2admin
+    -> db2 terminate
+  - запускаем DBeaver
+  - подключаемся к серверу:
+    - тип - DB2 LUW
+    - сервер - localhost:25000
+    - база данных - SAMPLE
+    - пользователь - db2admin
+    - пароль - 12345678
+  - выполняем скрипты .\sql\IBM DB2\
 
 ---------------------------------------------------------------------------------
 Сборка:

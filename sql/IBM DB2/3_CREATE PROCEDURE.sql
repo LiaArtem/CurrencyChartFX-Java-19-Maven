@@ -1,0 +1,23 @@
+CREATE OR replace PROCEDURE INSERT_KURS
+(
+ IN P_KURS_DATE VARCHAR(255),
+ IN P_CURRENCY_CODE VARCHAR(3),
+ IN P_RATE DECIMAL(22, 6)
+)
+LANGUAGE SQL
+MODIFIES SQL DATA
+   INSERT
+   INTO    curs (CURS_DATE,
+   CURR_CODE,
+   RATE)
+	     SELECT
+   TO_DATE(P_KURS_DATE, 'YYYY-MM-DD'),
+               P_CURRENCY_CODE,
+               P_RATE
+FROM    SYSIBM.SYSDUMMY1
+WHERE    NOT EXISTS (
+   SELECT
+       1
+   FROM        curs c
+   WHERE        c.curs_date = TO_DATE(P_KURS_DATE, 'YYYY-MM-DD')
+           AND c.curr_code = P_CURRENCY_CODE);

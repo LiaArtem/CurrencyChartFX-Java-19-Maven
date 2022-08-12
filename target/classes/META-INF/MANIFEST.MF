@@ -1,17 +1,20 @@
 Manifest-Version: 1.0
 Main-Class: com.example.currencychartfxmaven.Main
-Class-Path: mysql-connector-java-8.0.29.jar javafx-fxml-18.0.2-win.jar j
- avafx-base-18.0.2.jar javafx-fxml-18.0.2.jar stax2-api-4.2.1.jar javafx
- -graphics-18.0.2.jar javafx-graphics-18.0.2-win.jar sqlite-jdbc-3.36.0.
- 3.jar itext-2.1.7.js10.jar commons-collections-3.2.2.jar jackson-annota
- tions-2.13.3.jar jcommon-1.0.23.jar ojdbc11-21.6.0.0.1.jar protobuf-jav
- a-3.19.4.jar javax.activation-api-1.2.0.jar javafx-controls-18.0.2-win.
- jar checker-qual-3.5.0.jar gson-2.9.0.jar jaxb-api-2.3.1.jar jfreechart
- -1.0.19.jar jasperreports-fonts-6.20.0.jar bcprov-jdk15on-1.70.jar ecj-
- 3.21.0.jar jackson-dataformat-xml-2.13.3.jar woodstox-core-6.2.7.jar ja
- vafx-base-18.0.2-win.jar postgresql-42.4.0.jar commons-collections4-4.2
- .jar mssql-jdbc-10.2.1.jre17.jar jackson-databind-2.13.3.jar commons-be
- anutils-1.9.4.jar commons-logging-1.1.1.jar jasperreports-6.20.0.jar bc
- util-jdk15on-1.70.jar jackson-core-2.13.3.jar commons-digester-2.1.jar 
- javafx-controls-18.0.2.jar
+Class-Path: javafx-graphics-18.0.2.jar javafx-fxml-18.0.2.jar javafx-bas
+ e-18.0.2-win.jar jaxb-api-2.3.1.jar asm-9.1.jar bcprov-jdk15on-1.70.jar
+  slf4j-api-1.7.36.jar jcip-annotations-1.0-1.jar content-type-2.2.jar p
+ rotobuf-java-3.19.4.jar javafx-fxml-18.0.2-win.jar gson-2.9.1.jar commo
+ ns-logging-1.1.1.jar jcc-11.5.7.0.jar javax.activation-api-1.2.0.jar ja
+ ckson-databind-2.13.3.jar jasperreports-fonts-6.20.0.jar jfreechart-1.0
+ .19.jar json-smart-2.4.8.jar sqlite-jdbc-3.39.2.0.jar jcommon-1.0.23.ja
+ r mssql-jdbc-11.2.0.jre18.jar msal4j-1.13.0.jar stax2-api-4.2.1.jar ite
+ xt-2.1.7.js10.jar woodstox-core-6.2.7.jar jackson-core-2.13.3.jar jacks
+ on-annotations-2.13.3.jar lang-tag-1.6.jar jasperreports-6.20.0.jar pos
+ tgresql-42.4.1.jar nimbus-jose-jwt-9.22.jar javafx-graphics-18.0.2-win.
+ jar bcutil-jdk15on-1.70.jar javafx-controls-18.0.2-win.jar commons-bean
+ utils-1.9.4.jar oauth2-oidc-sdk-9.35.jar ecj-3.21.0.jar commons-digeste
+ r-2.1.jar mysql-connector-java-8.0.30.jar commons-collections-3.2.2.jar
+  accessors-smart-2.4.8.jar javafx-base-18.0.2.jar ojdbc11-21.6.0.0.1.ja
+ r javafx-controls-18.0.2.jar commons-collections4-4.2.jar jackson-dataf
+ ormat-xml-2.13.3.jar checker-qual-3.5.0.jar
 

@@ -1,1 +1,4 @@
-/javafx-sdk/legal/javafx.base/ASSEMBLY_EXCEPTION
+/javafx-sdk/
+/out/
+/report_export/
+/CurrencyChartFXMaven.db

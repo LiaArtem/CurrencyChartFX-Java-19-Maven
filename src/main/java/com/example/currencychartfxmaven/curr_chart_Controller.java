@@ -57,7 +57,7 @@ public class curr_chart_Controller {
 
     private final ObservableList<String> report_code_List = FXCollections.observableArrayList("Отчет - Без базы данных", "Отчет - база данных SQLite", "Отчет - база данных MySQL",
                                                                                             "Отчет - база данных PostgreSQL", "Отчет - база данных Oracle", "Отчет - база данных MSSQL",
-                                                                                             "Отчет - база данных AzureSQL");
+                                                                                             "Отчет - база данных AzureSQL", "Отчет - база данных IBM DB2");
     private static final String tec_kat = new File("").getAbsolutePath();
     private static final String tec_kat_curs = tec_kat + File.separator + "temp";
 
@@ -180,6 +180,7 @@ public class curr_chart_Controller {
             case 4 -> Report_Oracle();
             case 5 -> Report_MSSQL();
             case 6 -> Report_AzureSQL();
+            case 7 -> Report_IBMDB2();
             default -> Report_No_DB();
         }
     }
@@ -487,6 +488,50 @@ public class curr_chart_Controller {
         }
     }
 
+    // Report - DB IBM DB2
+    private void Report_IBMDB2() throws JRException, IOException {
+        // Генерация отчета
+        String file_name = "CurrencyChartFXMavenReportIBMDB2";
+        String mPath_sample = tec_kat + File.separator + "report_sample";
+        String mPath_export = tec_kat + File.separator + "report_export";
+
+        // Компиляция jrxml файла
+        JasperReport jasperReport = JasperCompileManager
+                .compileReport(mPath_sample + File.separator + file_name + ".jrxml");
+
+        // Параметры для отчета
+        Map<String, Object> parameters = new HashMap<>();
+
+        Connection connection = ConnectionIBMDB2();
+        if (connection == null) {
+            Main.MessageBoxError("Ошибка подключения к DB", "Ошибка ConnectionIBMDB2");
+            return;
+        }
+
+        // DataSource
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+
+        // Проверка папки для экспорта
+        boolean mkdirs_result = new File(mPath_export).mkdirs();
+        if (!mkdirs_result) {
+            System.out.println(mPath_export + " Каталог уже существует");
+        }
+
+        // Экспорт в PDF
+        JasperExportManager.exportReportToPdfFile(jasperPrint,
+                mPath_export + File.separator + file_name + ".pdf");
+
+        // Отобразить файл на экране
+        File file = new File(mPath_export + File.separator + file_name + ".pdf");
+        Desktop desktop = Desktop.getDesktop();
+        if (desktop.isSupported(Desktop.Action.OPEN)) {
+            desktop.open(file);
+        }
+        else {
+            Main.MessageBoxError("Открытие файла pdf не поддерживается", "Ошибка");
+        }
+    }
+
     // Расчет значений графика и его прорисовка
     private void Calc_range() throws TransformerException {
         Calendar now = Calendar.getInstance();   // Gets the current date and time
@@ -608,6 +653,9 @@ public class curr_chart_Controller {
 
         // Добавление данных в базу DB AzureSQL
         AddTableAzureSQL(mCurrCode, mArray);
+
+        // Добавление данных в базу DB IBM DB2
+        AddTableIBMDB2(mCurrCode, mArray);
 
     }
 
@@ -1515,7 +1563,7 @@ public class curr_chart_Controller {
         Connection connection = null;
         try {
             // create a database connection
-            connection = ConnectionMSSQL();
+            connection = ConnectionAzureSQL();
             if (connection == null) { return; }
 
             ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("AzureSQL");
@@ -1550,6 +1598,71 @@ public class curr_chart_Controller {
             {
                 // connection close failed.
                 Main.MessageBoxError(e.getMessage(), "Ошибка AddTableAzureSQL");
+            }
+        }
+    }
+
+    // Подключение к DB IBM DB2
+    public Connection ConnectionIBMDB2()
+    {
+        ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("IBMDB2");
+        if (ConnDB.GetRezult()) { return null; }
+
+        Connection connection;
+        try
+        {
+            // create a database connection
+            connection = DriverManager.getConnection(ConnDB.JDBCConnection);
+        }
+        catch(SQLException e)
+        {
+            connection = null;
+            System.out.println("ConnectionIBMDB2: " + e.getMessage());
+        }
+        return connection;
+    }
+
+    // Добавление данных в базу IBM DB2
+    public void AddTableIBMDB2(String mCurrCode, String[][] mArray)
+    {
+        Connection connection = null;
+        try {
+            // create a database connection
+            connection = ConnectionIBMDB2();
+            if (connection == null) { return; }
+
+            ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("IBMDB2");
+
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+            for (int iii = 0; iii < mArray[0].length; iii++) {
+                String INSERT_SQL = "CALL " + ConnDB.DBInsertSchema + "." + ConnDB.DBInsertProcedure + "(?, ?, ?)";
+                PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
+                ps.setString(1, mArray[0][iii].substring(0, 4) + "-" +
+                        mArray[0][iii].substring(4, 6) + "-" +
+                        mArray[0][iii].substring(6, 8)
+                ); // TEXT как строки ISO8601 ("YYYY-MM-DD HH:MM:SS").
+                ps.setString(2, mCurrCode);
+                ps.setDouble(3, Main.getString_Double(mArray[1][iii]));
+                ps.executeUpdate();
+            }
+        }
+        catch(SQLException e)
+        {
+            Main.MessageBoxError(e.getMessage(), "Ошибка AddTableIBMDB2");
+        }
+        finally
+        {
+            try
+            {
+                if(connection != null)
+                    connection.close();
+            }
+            catch(SQLException e)
+            {
+                // connection close failed.
+                Main.MessageBoxError(e.getMessage(), "Ошибка AddTableIBMDB2");
             }
         }
     }

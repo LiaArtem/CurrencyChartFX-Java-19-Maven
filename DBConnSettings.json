@@ -30,5 +30,10 @@
     "ConnectionAzureSQL": {
          "JDBCConnection": "jdbc:sqlserver://dbserver-test-lia.database.windows.net:1433;database=TestDB;user=admin-dbserver;password=!Dddsfgdfgdfg34534534534;encrypt=true;loginTimeout=30;",
          "DBInsertProcedure": "INSERT_KURS"
+         },
+    "ConnectionIBMDB2": {
+         "JDBCConnection": "jdbc:db2://localhost:25000/SAMPLE:user=db2admin;password=12345678;",
+         "DBInsertSchema": "test_schemas",
+         "DBInsertProcedure": "INSERT_KURS"
          }
 }
