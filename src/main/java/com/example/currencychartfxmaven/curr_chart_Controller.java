@@ -227,7 +227,7 @@ public class curr_chart_Controller {
     // Report - DB SQLite
     private void Report_SQLite() throws JRException, IOException {
         // Генерация отчета
-        String file_name = "CurrencyChartFXMavenReport";
+        String file_name = "CurrencyChartFXMavenReportSQLite";
         String mPath_sample = tec_kat + File.separator + "report_sample";
         String mPath_export = tec_kat + File.separator + "report_export";
 

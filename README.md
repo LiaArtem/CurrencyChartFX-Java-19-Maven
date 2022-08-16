@@ -9,7 +9,7 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
 - скачать и установить Git
 - скачать и установить jdk-18_windows-x64_bin.exe (18.0.2)
 - скачать и установить SceneBuilder-18.0.0
-- скачать и установить TIB_js-studiocomm_6.19.1_windows_x86_64.exe + запустить и закрыть.
+- скачать и установить TIB_js-studiocomm_6.20.0_windows_x86_64.exe + запустить и закрыть.
 - скачать и настроить Maven
 - настроить Github в IntelliJ IDEA Community (Settings - Version Control - Github)
 
@@ -25,12 +25,12 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
 
 Настройка отчетов:
 ---------------------------------------------------------------------------------
-- TIB_js-studiocomm_6.19.1_windows_x86_64.exe, запустить TIBCO Jaspersoft Studio-6.19.1
+- TIB_js-studiocomm_6.20.0_windows_x86_64.exe, запустить TIBCO Jaspersoft Studio
 - распаковать JaspersoftWorkspace.7z в C:\Users\Admin\JaspersoftWorkspace
 - изменить настройки Datasource если необходимо
-  - !!! При разработке отчетов в Jaspersoft® Studio 6.19.1 для MSSQL 2019 возникает ошибка
+  - !!! При разработке отчетов в Jaspersoft® Studio для MSSQL 2019 возникает ошибка
     java.lang.UnsatisfiedLinkError: Native Library .\mssql-jdbc_auth-X.X.X.x64.dll already loaded in another classloader) методы лечения в интернете не подошли
-    При выполнении в java не появляется, видимо проблема Jaspersoft® Studio 6.18.1
+    При выполнении в java не появляется, видимо проблема Jaspersoft® Studio со встроенной работой с jre11
 
 ---------------------------------------------------------------------------------
 Настройка баз данных (+ JDBC Driver):
@@ -48,7 +48,7 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
 
 ---------------------------------------------------------------------------------
 - MS SQL 2019
-  - скачать Download Microsoft JDBC Driver for SQL Server - (sqljdbc_X.X.X.X_rus.zip).
+  - скачать или взять с mssql-jdbc_auth-X.X.X.x64.dll (Download Microsoft JDBC Driver for SQL Server - (sqljdbc_X.X.X.X_rus.zip))
   - Файл mssql-jdbc_auth-X.X.X.x64.dll скопировать в windows\system32 для подключения в java
   Для работы jdbc:
   - You need to Go to Start > Microsoft SQL Server > Configuration Tools > SQL Server Configuration Manager
@@ -56,12 +56,12 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
     - Где вы найдете протокол TCP/IP, если он отключен, затем Включите его.
     - Нажмите на TCP/IP, вы найдете его свойства.
     - !!! Вкладка Protocol - Enabled - Yes
-    - !!! Вкладка IP Addresses - IP10 - Enabled - Yes (там где IP address - 127.0.0.1)
-    - !!! Вкладка IP Addresses - IP9  - Enabled - Yes (там где IP address - ::1)
+    - !!! Вкладка IP Addresses - IPXX - Enabled - Yes (там где IP address - 127.0.0.1)
+    - !!! Вкладка IP Addresses - IPXX  - Enabled - Yes (там где IP address - ::1)
     - В этих свойствах Удалите все динамические порты TCP и добавьте значение 1433 во все TCP-порт (если они есть, по умолчанию не было)
     - Перезапустите службы SQL Server > SQL Server
 
-  - Microsoft SQL Server Management Studio 18 выполяем скрипты из папки .\sql\mssql\
+  - Microsoft SQL Server Management Studio выполяем скрипты из папки .\sql\mssql\
     !!!! 1_CREATE_DATABASE.sql в меню (Query -> SQLCMD Mode)
 
 ---------------------------------------------------------------------------------
