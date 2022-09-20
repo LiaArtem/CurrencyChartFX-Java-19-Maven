@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="CurrencyChartFXMaven" target="18" />
+      <module name="CurrencyChartFXMaven" target="19" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

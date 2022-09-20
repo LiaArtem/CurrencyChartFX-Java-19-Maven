@@ -1,21 +1,20 @@
-# CurrencyChartFX-Java-18-Maven
+# CurrencyChartFX-Java-19-Maven
 
-Maven JavaFX IntelliJ IDEA project - Java 18, JavaFX, Maven, JasperReports, JDBC (Oracle, MS SQL, Azure SQL, PostgreSQL, MySQL, IBM DB2, SQLite).
+Maven JavaFX IntelliJ IDEA project - Java 19, JavaFX, Maven, JasperReports, JDBC (Oracle, MS SQL, Azure SQL, PostgreSQL, MySQL, IBM DB2, SQLite).
 Construction of charts of currencies of NBU on years for watching of tendencies of change.
 
 Первичная настройка:
 ---------------------------------------------------------------------------------
 - скачать и установить IntelliJ IDEA Community
 - скачать и установить Git
-- скачать и установить jdk-18_windows-x64_bin.exe (18.0.2)
+- скачать и установить jdk-19_windows-x64_bin.exe (19.0.0)
 - скачать и установить SceneBuilder-18.0.0
 - скачать и установить TIB_js-studiocomm_6.20.0_windows_x86_64.exe + запустить и закрыть.
-- скачать и настроить Maven
 - настроить Github в IntelliJ IDEA Community (Settings - Version Control - Github)
 
 Разворачивание - настройка:
 ---------------------------------------------------------------------------------
-- Скачать и распаковать javafx (18.0.2) в папку проекта путь: ./javafx-sdk/
+- Скачать и распаковать javafx (19.0.0) в папку проекта путь: ./javafx-sdk/
 
 Настройка JavaFX:
 ---------------------------------------------------------------------------------

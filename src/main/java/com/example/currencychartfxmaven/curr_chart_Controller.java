@@ -1292,7 +1292,7 @@ public class curr_chart_Controller {
         catch(SQLException e)
         {
             connection = null;
-            System.out.println("ConnectionMySQL: " + e.getMessage());
+            System.out.println("ConnectionMySQL: " + e.getMessage().toString().replace("\n",""));
         }
         return connection;
     }

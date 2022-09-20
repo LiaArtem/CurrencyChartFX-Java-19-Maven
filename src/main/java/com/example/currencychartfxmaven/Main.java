@@ -8,6 +8,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.util.Objects;
 import java.util.Optional;
 
 // библиотека разбора JSON - www.java2s.com/Code/JarDownload/gson/gson-2.2.2.jar.zip
@@ -22,7 +23,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         // график
-        BorderPane root = FXMLLoader.load(getClass().getResource("currencychart.fxml"));
+        BorderPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("currencychart.fxml")));
         primaryStage.setTitle("Изменение курса валют");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
