@@ -69,7 +69,7 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
   - Файл mssql-jdbc_auth-X.X.X.x64.dll скопировать в windows\system32 для подключения в java
 
   - Microsoft SQL Server Management Studio 18 выполяем скрипты из папки .\sql\azuredb\
-    !!!! 1_CREATE_DATABASE.sql в меню (Query -> SQLCMD Mode)
+    !!!! *.sql в меню (Query -> SQLCMD Mode)
 
 ---------------------------------------------------------------------------------
 - PostgreSQL 14
