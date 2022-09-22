@@ -34,7 +34,7 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
 ---------------------------------------------------------------------------------
 Настройка баз данных (+ JDBC Driver):
 ---------------------------------------------------------------------------------
-- Oracle XE 21с
+- Oracle XE
   - после установки меняем в глоб. реестре:
     - Компьютер\HKEY_LOCAL_MACHINE\SOFTWARE\ORACLE\KEY_OraDB21Home1 c AMERICAN_AMERICA.WE8MSWIN1252
       на NLS_LANG = AMERICAN_AMERICA.AL32UTF8 (либо AMERICAN_AMERICA.CL8MSWIN1251)
@@ -46,9 +46,10 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
     - !!! Настраиваем кодировку с среде Oracle SQL Developer - Tools -> Preferences -> Environment -> Encoding (меняем на UTF-8).
 
 ---------------------------------------------------------------------------------
-- MS SQL 2019
-  - скачать или взять с mssql-jdbc_auth-X.X.X.x64.dll (Download Microsoft JDBC Driver for SQL Server - (sqljdbc_X.X.X.X_rus.zip))
-  - Файл mssql-jdbc_auth-X.X.X.x64.dll скопировать в windows\system32 для подключения в java
+- MS SQL
+  - Microsoft SQL Server Management Studio выполяем скрипты из папки .\sql\mssql\
+    !!!! *.sql в меню (Query -> SQLCMD Mode)
+
   Для работы jdbc:
   - You need to Go to Start > Microsoft SQL Server > Configuration Tools > SQL Server Configuration Manager
   - SQL Server Configuration Manager > SQL Server Network Configuration > Protocols for MSSQLSERVER
@@ -60,8 +61,20 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
     - В этих свойствах Удалите все динамические порты TCP и добавьте значение 1433 во все TCP-порт (если они есть, по умолчанию не было)
     - Перезапустите службы SQL Server > SQL Server
 
-  - Microsoft SQL Server Management Studio выполяем скрипты из папки .\sql\mssql\
-    !!!! 1_CREATE_DATABASE.sql в меню (Query -> SQLCMD Mode)
+  Включаем Windows Aunthentication:
+  - скачать или взять с mssql-jdbc_auth-X.X.X.x64.dll (Download Microsoft JDBC Driver for SQL Server - (sqljdbc_X.X.X.X_rus.zip))
+  - Файл mssql-jdbc_auth-X.X.X.x64.dll скопировать в windows\system32 для подключения в java
+  - В файле - DBConnSettings.json значение Security_mode_WA = true
+
+  Включаем SQL Server Aunthentication:
+  - Запускаем Microsoft SQL Server Management Studio
+  - Имя сервера (SQL Server .....) -> правой клавишей Properties -> Security -> SQL Server and Windows Aunthentication mode включаем
+  - Перезапускаем сервер
+  - Включаем пользователя sa (Security -> Logins -> Properties)
+    - General - Password (устанавливаем пароль = 12345678)
+    - General (Default database - TestDB)
+    - Status (Login - Enabled)
+  - В файле - DBConnSettings.json значение Security_mode_WA = true
 
 ---------------------------------------------------------------------------------
 - Azure SQL
@@ -72,7 +85,7 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
     !!!! *.sql в меню (Query -> SQLCMD Mode)
 
 ---------------------------------------------------------------------------------
-- PostgreSQL 14
+- PostgreSQL
   - DBeaver выполяем скрипты из папки .\sql\postgeesql\ (при подключении вкладка PostgreSQL отображать все базы данных)
     - открыть SQL скрипт -> Выполнить SQL скрипт (Alt+X) (Файлы со скриптами в UTF8 - база в cp1251, при открытии могут быть иероглифы,
       тогда просто скопировать текст и вставить в окно SQL скрипта и выполнить)
@@ -87,7 +100,7 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
 
 ---------------------------------------------------------------------------------
 - IBM DB2
-  - устанавливаем DB2 Версии 11.5.7.0 Server Editions (Db2 Community Edition 11.5.7.0)  (логин: db2admin, пароль: 12345678.
+  - устанавливаем DB2 Community Edition (логин: db2admin, пароль: 12345678.
   - создаем базу данных: SAMPLE (Create sample database)
   - выдаем админ. права пользователю db2admin:
     - запускаем из Пуск -> Командное окно DB2 - Администратор

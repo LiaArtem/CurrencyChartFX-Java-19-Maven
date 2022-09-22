@@ -1076,11 +1076,13 @@ public class curr_chart_Controller {
 
     public static class ConnectionFileDataDB
     {
+        private String JDBCConnection_WA;
         private String JDBCConnection;
         private String DBUser;
         private String DBPassword;
         private String DBInsertSchema;
         private String DBInsertProcedure;
+        private boolean Security_mode_WA;
         private boolean Rezult;
 
         public ConnectionFileDataDB(String typeDB) {
@@ -1105,11 +1107,13 @@ public class curr_chart_Controller {
                             while (reader.hasNext()) {
                                 name = reader.nextName();
                                 switch (name) {
+                                    case "JDBCConnection_WA" -> JDBCConnection_WA = reader.nextString();
                                     case "JDBCConnection" -> JDBCConnection = reader.nextString();
                                     case "DBUser" -> DBUser = reader.nextString();
                                     case "DBPassword" -> DBPassword = reader.nextString();
                                     case "DBInsertSchema" -> DBInsertSchema = reader.nextString();
                                     case "DBInsertProcedure" -> DBInsertProcedure = reader.nextString();
+                                    case "Security_mode_WA" -> Security_mode_WA = reader.nextBoolean();
                                     default -> reader.skipValue();
                                 }
                             }
@@ -1123,6 +1127,10 @@ public class curr_chart_Controller {
                         }
                     }
                     reader.close();
+
+                    if (Rezult) {
+                        if (Security_mode_WA == true && JDBCConnection_WA != null) {JDBCConnection = JDBCConnection_WA;};
+                    }
 
                     if (!Rezult) {
                         System.out.println(mPath + " Тип " + typeDB + " в файл не найден. Запись в DB невозможна");

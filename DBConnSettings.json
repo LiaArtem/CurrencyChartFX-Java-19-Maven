@@ -24,8 +24,10 @@
          "DBInsertProcedure": "INSERT_KURS"
          },
     "ConnectionMSSQL": {
-         "JDBCConnection": "jdbc:sqlserver://localhost;databaseName=DatabaseTestDB;integratedSecurity=true;encrypt=false;",
-         "DBInsertProcedure": "INSERT_KURS"
+         "JDBCConnection_WA": "jdbc:sqlserver://localhost;databaseName=DatabaseTestDB;integratedSecurity=true;encrypt=false;",
+         "JDBCConnection": "jdbc:sqlserver://localhost;databaseName=DatabaseTestDB;user=sa;password=12345678;encrypt=false;",
+         "DBInsertProcedure": "INSERT_KURS",
+         "Security_mode_WA": false
          },
     "ConnectionAzureSQL": {
          "JDBCConnection": "jdbc:sqlserver://dbserver-test-lia.database.windows.net:1433;database=TestDB;user=admin-dbserver;password=!Dddsfgdfgdfg34534534534;encrypt=true;loginTimeout=30;",
