@@ -55,11 +55,16 @@ public class curr_chart_Controller {
                                                                                     "31");
     private final ObservableList<String> source_code_List = FXCollections.observableArrayList("Из файла JSON", "С сайта НБУ");
 
-    private final ObservableList<String> report_code_List = FXCollections.observableArrayList("Отчет - Без базы данных", "Отчет - база данных SQLite", "Отчет - база данных MySQL",
-                                                                                            "Отчет - база данных PostgreSQL", "Отчет - база данных Oracle", "Отчет - база данных MSSQL",
-                                                                                             "Отчет - база данных AzureSQL", "Отчет - база данных IBM DB2");
+    private final ObservableList<String> report_code_List = FXCollections.observableArrayList(
+            "Отчет - Без базы данных", "Отчет - база данных SQLite", "Отчет - база данных MySQL",
+                 "Отчет - база данных PostgreSQL", "Отчет - база данных Oracle", "Отчет - база данных MSSQL",
+                 "Отчет - база данных AzureSQL", "Отчет - база данных IBM DB2", "Отчет - база данных IBM Informix",
+                 "Отчет - база данных Firebird");
     private static final String tec_kat = new File("").getAbsolutePath();
     private static final String tec_kat_curs = tec_kat + File.separator + "temp";
+
+    private static String Path_template = "";
+    private static boolean Security_mode_WA;
 
     @FXML private ComboBox<String> curr_code;
     @FXML private ComboBox<String> year_com;
@@ -174,27 +179,31 @@ public class curr_chart_Controller {
     @FXML
     private void Report_buttonActionPerformed() throws JRException, IOException {
         switch (report_code.getSelectionModel().getSelectedIndex()) {
-            case 1 -> Report_SQLite();
-            case 2 -> Report_MySQL();
-            case 3 -> Report_PostgreSQL();
-            case 4 -> Report_Oracle();
-            case 5 -> Report_MSSQL();
-            case 6 -> Report_AzureSQL();
-            case 7 -> Report_IBMDB2();
+            case 1 -> Report_All("SQLite");
+            case 2 -> Report_All("MySQL");
+            case 3 -> Report_All("PostgreSQL");
+            case 4 -> Report_All("Oracle");
+            case 5 -> Report_All("MSSQL");
+            case 6 -> Report_All("AzureSQL");
+            case 7 -> Report_All("IBMDB2");
+            case 8 -> Report_All("IBMInformix");
+            case 9 -> Report_All("Firebird");
             default -> Report_No_DB();
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Report - No DB
     private void Report_No_DB() throws JRException, IOException {
         // Генерация отчета
         String file_name = "StyledTextReport";
-        String mPath_sample = tec_kat + File.separator + "report_sample";
         String mPath_export = tec_kat + File.separator + "report_export";
+
+        new ConnectionFileDataDB(null); // получить Path_template
 
         // Компиляция jrxml файла
         JasperReport jasperReport = JasperCompileManager
-                .compileReport(mPath_sample + File.separator + file_name + ".jrxml");
+                .compileReport(Path_template + File.separator + file_name + ".jrxml");
 
         // Параметры для отчета
         Map<String, Object> parameters = new HashMap<>();
@@ -224,289 +233,42 @@ public class curr_chart_Controller {
         }
     }
 
-    // Report - DB SQLite
-    private void Report_SQLite() throws JRException, IOException {
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Report - DB All
+    private void Report_All(String m_DB_type) throws JRException, IOException {
         // Генерация отчета
-        String file_name = "CurrencyChartFXMavenReportSQLite";
-        String mPath_sample = tec_kat + File.separator + "report_sample";
+        String file_name = "CurrencyChartFXMavenReport" + m_DB_type;
         String mPath_export = tec_kat + File.separator + "report_export";
-
-        // Компиляция jrxml файла
-        JasperReport jasperReport = JasperCompileManager
-                .compileReport(mPath_sample + File.separator + file_name + ".jrxml");
+        Security_mode_WA = false;
 
         // Параметры для отчета
         Map<String, Object> parameters = new HashMap<>();
+        Connection connection = null;
+        switch (m_DB_type) {
+            case "SQLite"      -> connection = ConnectionSQLite();
+            case "MySQL"       -> connection = ConnectionMySQL();
+            case "PostgreSQL"  -> connection = ConnectionPostgreSQL();
+            case "Oracle"      -> connection = ConnectionOracle();
+            case "MSSQL"       -> connection = ConnectionMSSQL();
+            case "AzureSQL"    -> connection = ConnectionAzureSQL();
+            case "IBMDB2"      -> connection = ConnectionIBMDB2();
+            case "IBMInformix" -> connection = ConnectionIBMInformix();
+            case "Firebird"    -> connection = ConnectionFirebird();
+            default            -> connection = null;
+        }
 
-        Connection connection = ConnectionSQLite();
         if (connection == null) {
-            Main.MessageBoxError("Ошибка подключения к DB", "Ошибка ConnectionSQLite");
+            Main.MessageBoxError("Ошибка подключения к DB, проверьте параметр IsEnable", "Ошибка Connection" + m_DB_type);
             return;
         }
 
-        // DataSource
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
-
-        // Проверка папки для экспорта
-        boolean mkdirs_result = new File(mPath_export).mkdirs();
-        if (!mkdirs_result) {
-            System.out.println(mPath_export + " Каталог уже существует");
+        if (Security_mode_WA == true) {
+            file_name = "CurrencyChartFXMavenReport" + m_DB_type + "_WA";
         }
-
-        // Экспорт в PDF
-        JasperExportManager.exportReportToPdfFile(jasperPrint,
-                mPath_export + File.separator + file_name + ".pdf");
-
-        // Отобразить файл на экране
-        File file = new File(mPath_export + File.separator + file_name + ".pdf");
-        Desktop desktop = Desktop.getDesktop();
-        if (desktop.isSupported(Desktop.Action.OPEN)) {
-            desktop.open(file);
-        }
-        else {
-            Main.MessageBoxError("Открытие файла pdf не поддерживается", "Ошибка");
-        }
-    }
-
-    // Report - DB MySQL
-    private void Report_MySQL() throws JRException, IOException {
-        // Генерация отчета
-        String file_name = "CurrencyChartFXMavenReportMySQL";
-        String mPath_sample = tec_kat + File.separator + "report_sample";
-        String mPath_export = tec_kat + File.separator + "report_export";
 
         // Компиляция jrxml файла
         JasperReport jasperReport = JasperCompileManager
-                .compileReport(mPath_sample + File.separator + file_name + ".jrxml");
-
-        // Параметры для отчета
-        Map<String, Object> parameters = new HashMap<>();
-
-        Connection connection = ConnectionMySQL();
-        if (connection == null) {
-            Main.MessageBoxError("Ошибка подключения к DB", "Ошибка ConnectionMySQL");
-            return;
-        }
-
-        // DataSource
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
-
-        // Проверка папки для экспорта
-        boolean mkdirs_result = new File(mPath_export).mkdirs();
-        if (!mkdirs_result) {
-            System.out.println(mPath_export + " Каталог уже существует");
-        }
-
-        // Экспорт в PDF
-        JasperExportManager.exportReportToPdfFile(jasperPrint,
-                mPath_export + File.separator + file_name + ".pdf");
-
-        // Отобразить файл на экране
-        File file = new File(mPath_export + File.separator + file_name + ".pdf");
-        Desktop desktop = Desktop.getDesktop();
-        if (desktop.isSupported(Desktop.Action.OPEN)) {
-            desktop.open(file);
-        }
-        else {
-            Main.MessageBoxError("Открытие файла pdf не поддерживается", "Ошибка");
-        }
-    }
-
-    // Report - PostgreSQL
-    private void Report_PostgreSQL() throws JRException, IOException {
-        // Генерация отчета
-        String file_name = "CurrencyChartFXMavenReportPostgreSQL";
-        String mPath_sample = tec_kat + File.separator + "report_sample";
-        String mPath_export = tec_kat + File.separator + "report_export";
-
-        // Компиляция jrxml файла
-        JasperReport jasperReport = JasperCompileManager
-                .compileReport(mPath_sample + File.separator + file_name + ".jrxml");
-
-        // Параметры для отчета
-        Map<String, Object> parameters = new HashMap<>();
-
-        Connection connection = ConnectionPostgreSQL();
-        if (connection == null) {
-            Main.MessageBoxError("Ошибка подключения к DB", "Ошибка ConnectionPostgreSQL");
-            return;
-        }
-
-        // DataSource
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
-
-        // Проверка папки для экспорта
-        boolean mkdirs_result = new File(mPath_export).mkdirs();
-        if (!mkdirs_result) {
-            System.out.println(mPath_export + " Каталог уже существует");
-        }
-
-        // Экспорт в PDF
-        JasperExportManager.exportReportToPdfFile(jasperPrint,
-                mPath_export + File.separator + file_name + ".pdf");
-
-        // Отобразить файл на экране
-        File file = new File(mPath_export + File.separator + file_name + ".pdf");
-        Desktop desktop = Desktop.getDesktop();
-        if (desktop.isSupported(Desktop.Action.OPEN)) {
-            desktop.open(file);
-        }
-        else {
-            Main.MessageBoxError("Открытие файла pdf не поддерживается", "Ошибка");
-        }
-    }
-
-    // Report - DB Oracle
-    private void Report_Oracle() throws JRException, IOException {
-        // Генерация отчета
-        String file_name = "CurrencyChartFXMavenReportOracle";
-        String mPath_sample = tec_kat + File.separator + "report_sample";
-        String mPath_export = tec_kat + File.separator + "report_export";
-
-        // Компиляция jrxml файла
-        JasperReport jasperReport = JasperCompileManager
-                .compileReport(mPath_sample + File.separator + file_name + ".jrxml");
-
-        // Параметры для отчета
-        Map<String, Object> parameters = new HashMap<>();
-
-        Connection connection = ConnectionOracle();
-        if (connection == null) {
-            Main.MessageBoxError("Ошибка подключения к DB", "Ошибка ConnectionOracle");
-            return;
-        }
-
-        // DataSource
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
-
-        // Проверка папки для экспорта
-        boolean mkdirs_result = new File(mPath_export).mkdirs();
-        if (!mkdirs_result) {
-            System.out.println(mPath_export + " Каталог уже существует");
-        }
-
-        // Экспорт в PDF
-        JasperExportManager.exportReportToPdfFile(jasperPrint,
-                mPath_export + File.separator + file_name + ".pdf");
-
-        // Отобразить файл на экране
-        File file = new File(mPath_export + File.separator + file_name + ".pdf");
-        Desktop desktop = Desktop.getDesktop();
-        if (desktop.isSupported(Desktop.Action.OPEN)) {
-            desktop.open(file);
-        }
-        else {
-            Main.MessageBoxError("Открытие файла pdf не поддерживается", "Ошибка");
-        }
-    }
-
-    // Report - DB MSSQL
-    private void Report_MSSQL() throws JRException, IOException {
-        // Генерация отчета
-        String file_name = "CurrencyChartFXMavenReportMSSQL";
-        String mPath_sample = tec_kat + File.separator + "report_sample";
-        String mPath_export = tec_kat + File.separator + "report_export";
-
-        // Компиляция jrxml файла
-        JasperReport jasperReport = JasperCompileManager
-                .compileReport(mPath_sample + File.separator + file_name + ".jrxml");
-
-        // Параметры для отчета
-        Map<String, Object> parameters = new HashMap<>();
-
-        Connection connection = ConnectionMSSQL();
-        if (connection == null) {
-            Main.MessageBoxError("Ошибка подключения к DB", "Ошибка ConnectionMSSQL");
-            return;
-        }
-
-        // DataSource
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
-
-        // Проверка папки для экспорта
-        boolean mkdirs_result = new File(mPath_export).mkdirs();
-        if (!mkdirs_result) {
-            System.out.println(mPath_export + " Каталог уже существует");
-        }
-
-        // Экспорт в PDF
-        JasperExportManager.exportReportToPdfFile(jasperPrint,
-                mPath_export + File.separator + file_name + ".pdf");
-
-        // Отобразить файл на экране
-        File file = new File(mPath_export + File.separator + file_name + ".pdf");
-        Desktop desktop = Desktop.getDesktop();
-        if (desktop.isSupported(Desktop.Action.OPEN)) {
-            desktop.open(file);
-        }
-        else {
-            Main.MessageBoxError("Открытие файла pdf не поддерживается", "Ошибка");
-        }
-    }
-
-    // Report - DB AzureSQL
-    private void Report_AzureSQL() throws JRException, IOException {
-        // Генерация отчета
-        String file_name = "CurrencyChartFXMavenReportAzureSQL";
-        String mPath_sample = tec_kat + File.separator + "report_sample";
-        String mPath_export = tec_kat + File.separator + "report_export";
-
-        // Компиляция jrxml файла
-        JasperReport jasperReport = JasperCompileManager
-                .compileReport(mPath_sample + File.separator + file_name + ".jrxml");
-
-        // Параметры для отчета
-        Map<String, Object> parameters = new HashMap<>();
-
-        Connection connection = ConnectionAzureSQL();
-        if (connection == null) {
-            Main.MessageBoxError("Ошибка подключения к DB", "Ошибка ConnectionAzureSQL");
-            return;
-        }
-
-        // DataSource
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
-
-        // Проверка папки для экспорта
-        boolean mkdirs_result = new File(mPath_export).mkdirs();
-        if (!mkdirs_result) {
-            System.out.println(mPath_export + " Каталог уже существует");
-        }
-
-        // Экспорт в PDF
-        JasperExportManager.exportReportToPdfFile(jasperPrint,
-                mPath_export + File.separator + file_name + ".pdf");
-
-        // Отобразить файл на экране
-        File file = new File(mPath_export + File.separator + file_name + ".pdf");
-        Desktop desktop = Desktop.getDesktop();
-        if (desktop.isSupported(Desktop.Action.OPEN)) {
-            desktop.open(file);
-        }
-        else {
-            Main.MessageBoxError("Открытие файла pdf не поддерживается", "Ошибка");
-        }
-    }
-
-    // Report - DB IBM DB2
-    private void Report_IBMDB2() throws JRException, IOException {
-        // Генерация отчета
-        String file_name = "CurrencyChartFXMavenReportIBMDB2";
-        String mPath_sample = tec_kat + File.separator + "report_sample";
-        String mPath_export = tec_kat + File.separator + "report_export";
-
-        // Компиляция jrxml файла
-        JasperReport jasperReport = JasperCompileManager
-                .compileReport(mPath_sample + File.separator + file_name + ".jrxml");
-
-        // Параметры для отчета
-        Map<String, Object> parameters = new HashMap<>();
-
-        Connection connection = ConnectionIBMDB2();
-        if (connection == null) {
-            Main.MessageBoxError("Ошибка подключения к DB", "Ошибка ConnectionIBMDB2");
-            return;
-        }
+                .compileReport(Path_template + File.separator + file_name + ".jrxml");
 
         // DataSource
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
@@ -656,6 +418,12 @@ public class curr_chart_Controller {
 
         // Добавление данных в базу DB IBM DB2
         AddTableIBMDB2(mCurrCode, mArray);
+
+        // Добавление данных в базу DB IBM Informix
+        AddTableIBMInformix(mCurrCode, mArray);
+
+        // Добавление данных в базу DB IBM Firebird
+        AddTableFirebird(mCurrCode, mArray);
 
     }
 
@@ -1084,11 +852,12 @@ public class curr_chart_Controller {
         private String DBInsertProcedure;
         private boolean Security_mode_WA;
         private boolean Rezult;
+        private boolean IsEnable;
 
         public ConnectionFileDataDB(String typeDB) {
 
             // Получить параметры
-            String mPath = tec_kat + File.separatorChar + "DBConnSettings.json";
+            String mPath = tec_kat + File.separatorChar + "Settings.json";
             File file = new File(mPath);
             if (!file.exists()) {
                 Rezult = false; // не успешно
@@ -1114,11 +883,24 @@ public class curr_chart_Controller {
                                     case "DBInsertSchema" -> DBInsertSchema = reader.nextString();
                                     case "DBInsertProcedure" -> DBInsertProcedure = reader.nextString();
                                     case "Security_mode_WA" -> Security_mode_WA = reader.nextBoolean();
+                                    case "IsEnable" -> IsEnable = reader.nextBoolean();
                                     default -> reader.skipValue();
                                 }
                             }
                             reader.endObject();
                             Rezult = true; // успешно
+                        }
+                        else if (name.equals("Path_Report"))
+                        {
+                            reader.beginObject();
+                            while (reader.hasNext()) {
+                                name = reader.nextName();
+                                switch (name) {
+                                    case "Path_template" -> Path_template = reader.nextString();
+                                    default -> reader.skipValue();
+                                }
+                            }
+                            reader.endObject();
                         }
                         else { // те которые пропускем, все равно проходим
                             reader.beginObject();
@@ -1132,8 +914,13 @@ public class curr_chart_Controller {
                         if (Security_mode_WA == true && JDBCConnection_WA != null) {JDBCConnection = JDBCConnection_WA;};
                     }
 
-                    if (!Rezult) {
+                    if (!Rezult && typeDB != null) {
                         System.out.println(mPath + " Тип " + typeDB + " в файл не найден. Запись в DB невозможна");
+                    }
+
+                    if (!IsEnable && typeDB != null) {
+                        Rezult = false;
+                        System.out.println(typeDB + " подключение выключено. (IsEnable = false)");
                     }
 
                 } catch (IOException e) {
@@ -1146,6 +933,7 @@ public class curr_chart_Controller {
         public boolean GetRezult() { return !Rezult; }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Подключение к DB и создание базы данных SQLite
     public Connection ConnectionSQLite()
     {
@@ -1285,6 +1073,7 @@ public class curr_chart_Controller {
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Подключение к DB MySQL
     public Connection ConnectionMySQL()
     {
@@ -1350,6 +1139,7 @@ public class curr_chart_Controller {
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Подключение к DB PostgreSQL
     public Connection ConnectionPostgreSQL()
     {
@@ -1415,6 +1205,7 @@ public class curr_chart_Controller {
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Подключение к DB Oracle
     public Connection ConnectionOracle()
     {
@@ -1480,10 +1271,12 @@ public class curr_chart_Controller {
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Подключение к DB MSSQL
     public Connection ConnectionMSSQL()
     {
         ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("MSSQL");
+        Security_mode_WA = ConnDB.Security_mode_WA;
         if (ConnDB.GetRezult()) { return null; }
 
         Connection connection;
@@ -1545,6 +1338,7 @@ public class curr_chart_Controller {
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Подключение к DB AzureSQL
     public Connection ConnectionAzureSQL()
     {
@@ -1610,6 +1404,7 @@ public class curr_chart_Controller {
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Подключение к DB IBM DB2
     public Connection ConnectionIBMDB2()
     {
@@ -1674,4 +1469,139 @@ public class curr_chart_Controller {
             }
         }
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Подключение к DB IBM Informix
+    public Connection ConnectionIBMInformix()
+    {
+        ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("IBMInformix");
+        if (ConnDB.GetRezult()) { return null; }
+
+        Connection connection;
+        try
+        {
+            // create a database connection
+            connection = DriverManager.getConnection(ConnDB.JDBCConnection);
+        }
+        catch(SQLException e)
+        {
+            connection = null;
+            System.out.println("ConnectionIBMInformix: " + e.getMessage());
+        }
+        return connection;
+    }
+
+    // Добавление данных в базу IBM Informix
+    public void AddTableIBMInformix(String mCurrCode, String[][] mArray)
+    {
+        Connection connection = null;
+        try {
+            // create a database connection
+            connection = ConnectionIBMInformix();
+            if (connection == null) { return; }
+
+            ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("IBMInformix");
+
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+            for (int iii = 0; iii < mArray[0].length; iii++) {
+                String INSERT_SQL = "CALL " + ConnDB.DBInsertSchema + "." + ConnDB.DBInsertProcedure + "(?, ?, ?)";
+                PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
+                ps.setString(1, mArray[0][iii].substring(0, 4) + "-" +
+                        mArray[0][iii].substring(4, 6) + "-" +
+                        mArray[0][iii].substring(6, 8)
+                ); // TEXT как строки ISO8601 ("YYYY-MM-DD HH:MM:SS").
+                ps.setString(2, mCurrCode);
+                ps.setDouble(3, Main.getString_Double(mArray[1][iii]));
+                ps.executeUpdate();
+            }
+        }
+        catch(SQLException e)
+        {
+            Main.MessageBoxError(e.getMessage(), "Ошибка AddTableIBMInformix");
+        }
+        finally
+        {
+            try
+            {
+                if(connection != null)
+                    connection.close();
+            }
+            catch(SQLException e)
+            {
+                // connection close failed.
+                Main.MessageBoxError(e.getMessage(), "Ошибка AddTableIBMInformix");
+            }
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Подключение к DB Firebird
+    public Connection ConnectionFirebird()
+    {
+        ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("Firebird");
+        if (ConnDB.GetRezult()) { return null; }
+
+        Connection connection;
+        try
+        {
+            // create a database connection
+            connection = DriverManager.getConnection(ConnDB.JDBCConnection, ConnDB.DBUser, ConnDB.DBPassword);
+        }
+        catch(SQLException e)
+        {
+            connection = null;
+            System.out.println("ConnectionFirebird: " + e.getMessage());
+            System.out.println(ConnDB.JDBCConnection);
+            //e.printStackTrace();
+        }
+        return connection;
+    }
+
+    // Добавление данных в базу Firebird
+    public void AddTableFirebird(String mCurrCode, String[][] mArray)
+    {
+        Connection connection = null;
+        try {
+            // create a database connection
+            connection = ConnectionFirebird();
+            if (connection == null) { return; }
+
+            ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("Firebird");
+
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+            for (int iii = 0; iii < mArray[0].length; iii++) {
+                String INSERT_SQL = "EXECUTE PROCEDURE " + ConnDB.DBInsertProcedure + "(?, ?, ?)";
+                PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
+                ps.setString(1, mArray[0][iii].substring(0, 4) + "-" +
+                        mArray[0][iii].substring(4, 6) + "-" +
+                        mArray[0][iii].substring(6, 8)
+                ); // TEXT как строки ISO8601 ("YYYY-MM-DD HH:MM:SS").
+                ps.setString(2, mCurrCode);
+                ps.setDouble(3, Main.getString_Double(mArray[1][iii]));
+                ps.executeUpdate();
+            }
+        }
+        catch(SQLException e)
+        {
+            Main.MessageBoxError(e.getMessage(), "Ошибка AddTableFirebird");
+        }
+        finally
+        {
+            try
+            {
+                if(connection != null)
+                    connection.close();
+            }
+            catch(SQLException e)
+            {
+                // connection close failed.
+                Main.MessageBoxError(e.getMessage(), "Ошибка AddTableFirebird");
+            }
+        }
+    }
+
 }

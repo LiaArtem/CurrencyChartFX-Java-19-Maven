@@ -1,6 +1,6 @@
 # CurrencyChartFX-Java-19-Maven
 
-Maven JavaFX IntelliJ IDEA project - Java 19, JavaFX, Maven, JasperReports, JDBC (Oracle, MS SQL, Azure SQL, PostgreSQL, MySQL, IBM DB2, SQLite).
+Maven JavaFX IntelliJ IDEA project - Java 19, JavaFX, Maven, JasperReports, JDBC (Oracle, MS SQL, Azure SQL, PostgreSQL, MySQL, IBM DB2, IBM Informix, Firebird, SQLite).
 Construction of charts of currencies of NBU on years for watching of tendencies of change.
 
 Первичная настройка:
@@ -115,6 +115,35 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
     - пользователь - db2admin
     - пароль - 12345678
   - выполняем скрипты .\sql\IBM DB2\
+
+---------------------------------------------------------------------------------
+IBM Informix
+  - устанавливаем IBM Informix без инсталляции Instance (логин: informix (по умолчанию), пароль: 12345678)
+  - запускаем Server Instance Manager и создаем подключение
+     - Dynamic Server Name: informix_test
+     - Service Name: turbo_test
+     - Port number: 9088 (по умолчанию)
+     - Password: 12345678
+  - устанавливаем IBM Data Studio Client
+    - запускаем (справа -> Обзор источников данных -> Соединения базы данных -> New...)
+    - подключение:
+      - Jdbc driver: Informix 12.1 - Informix JDBC driver default
+      - База данных: sysadmin
+      - Хост: localhost
+      - Номер порта: 9088
+      - Сервер: informix_test
+      - Имя пользователя: informix
+      - Пароль: 12345678 ([v] Сохранить пароль)
+      - Схема: пусто
+    - переключаем <Операция: Управление базами данных> на <Операция: Выполнить SQL>
+    - выполняем скрипты .\sql\IBM Informix\1_CREATE_DATABASE.sql
+    - отключится от базы данных sysadmin и меняем на sample:
+      - правая клавиша Свойства -> (Общая - sample, Свойства драйвера - База данных: sample) + применить и закрыть
+    - выполняем скрипт .\sql\IBM Informix\3_CREATE TABLE AND VIEW.sql
+    - установка процедуры:
+      - справа -> Обзор источников данных -> Соединения базы данных -> sample -> informix -> Хранимые процедуры -> правой New Stored Procedure (Имя любое) -> Готово
+      - заменяем текст из файла .\sql\IBM Informix\4_CREATE PROCEDURE.spsql
+      - жмем маленькую кнопку - Deploy the routine to the database server -> Готово
 
 ---------------------------------------------------------------------------------
 Сборка:

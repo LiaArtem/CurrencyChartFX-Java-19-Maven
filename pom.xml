@@ -80,6 +80,24 @@
             <artifactId>jcc</artifactId>
             <version>11.5.7.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.ibm.informix/jdbc -->
+        <dependency>
+            <groupId>com.ibm.informix</groupId>
+            <artifactId>jdbc</artifactId>
+            <version>4.50.8</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mongodb/bson -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>bson</artifactId>
+            <version>4.7.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.firebirdsql.jdbc/jaybird -->
+        <dependency>
+            <groupId>org.firebirdsql.jdbc</groupId>
+            <artifactId>jaybird</artifactId>
+            <version>4.0.6.java11</version>
+        </dependency>
     </dependencies>
 
     <build>

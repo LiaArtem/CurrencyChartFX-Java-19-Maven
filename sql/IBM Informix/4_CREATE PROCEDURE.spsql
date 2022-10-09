@@ -1,0 +1,9 @@
+CREATE PROCEDURE INSERT_KURS ( P_KURS_DATE VARCHAR(255), P_CURRENCY_CODE VARCHAR(3), P_RATE DECIMAL(22, 6))
+	INSERT INTO CURS (ID, CURS_DATE, CURR_CODE, RATE)
+	     SELECT CURS_SEQ.nextval,
+                TO_DATE(P_KURS_DATE, '%Y-%m-%d'),
+                P_CURRENCY_CODE,
+                P_RATE
+         FROM TABLE(SET{1})
+        WHERE NOT EXISTS (SELECT 1 FROM curs c where c.curs_date = TO_DATE(P_KURS_DATE, '%Y-%m-%d') and c.curr_code = P_CURRENCY_CODE);
+END PROCEDURE;
