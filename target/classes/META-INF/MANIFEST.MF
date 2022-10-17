@@ -1,18 +1,19 @@
 Manifest-Version: 1.0
 Main-Class: com.example.currencychartfxmaven.Main
-Class-Path: commons-collections4-4.2.jar jackson-databind-2.13.3.jar ojd
- bc11-21.7.0.0.jar bson-4.7.2.jar jcc-11.5.7.0.jar commons-collections-3
- .2.2.jar javafx-fxml-19.jar commons-digester-2.1.jar javax.activation-a
- pi-1.2.0.jar javafx-controls-19-win.jar jdbc-4.50.8.jar woodstox-core-6
- .2.7.jar bcprov-jdk15on-1.70.jar jaxb-api-2.3.1.jar sqlite-jdbc-3.39.3.
- 0.jar itext-2.1.7.js10.jar bcutil-jdk15on-1.70.jar javafx-graphics-19-w
- in.jar javafx-base-19.jar jfreechart-1.0.19.jar javafx-base-19-win.jar 
- checker-qual-3.5.0.jar ecj-3.21.0.jar commons-beanutils-1.9.4.jar jaspe
- rreports-fonts-6.20.0.jar javafx-graphics-19.jar javafx-controls-19.jar
-  jackson-dataformat-xml-2.13.3.jar jasperreports-6.20.0.jar mssql-jdbc-
- 11.2.1.jre18.jar mysql-connector-java-8.0.30.jar postgresql-42.5.0.jar 
- gson-2.9.1.jar protobuf-java-3.19.4.jar jackson-core-2.13.3.jar jackson
- -annotations-2.13.3.jar connector-api-1.5.jar commons-logging-1.1.1.jar
-  antlr4-runtime-4.7.2.jar jcommon-1.0.23.jar jaybird-4.0.6.java11.jar j
- avafx-fxml-19-win.jar stax2-api-4.2.1.jar
+Class-Path: jcommon-1.0.23.jar postgresql-42.5.0.jar mssql-jdbc-11.2.1.j
+ re18.jar commons-collections-3.2.2.jar sqlite-jdbc-3.39.3.0.jar gson-2.
+ 9.1.jar checker-qual-3.5.0.jar javafx-graphics-19-win.jar javafx-fxml-1
+ 9.jar jdbc-4.50.8.jar slf4j-nop-2.0.3.jar javafx-controls-19.jar javafx
+ -controls-19-win.jar jaxb-api-2.3.1.jar jackson-core-2.13.3.jar javafx-
+ base-19-win.jar javafx-base-19.jar commons-beanutils-1.9.4.jar jcc-11.5
+ .7.0.jar ojdbc11-21.7.0.0.jar stax2-api-4.2.1.jar bson-4.7.2.jar ecj-3.
+ 21.0.jar jasperreports-6.20.0.jar connector-api-1.5.jar jackson-annotat
+ ions-2.13.3.jar javafx-graphics-19.jar jasperreports-fonts-6.20.0.jar j
+ freechart-1.0.19.jar itext-2.1.7.js10.jar jackson-databind-2.13.3.jar j
+ avax.activation-api-1.2.0.jar commons-digester-2.1.jar jaybird-4.0.6.ja
+ va11.jar slf4j-api-2.0.3.jar jackson-dataformat-xml-2.13.3.jar commons-
+ collections4-4.2.jar commons-logging-1.1.1.jar protobuf-java-3.19.4.jar
+  mongo-java-driver-3.12.11.jar woodstox-core-6.2.7.jar bcprov-jdk15on-1
+ .70.jar antlr4-runtime-4.7.2.jar javafx-fxml-19-win.jar bcutil-jdk15on-
+ 1.70.jar mysql-connector-java-8.0.30.jar
 
