@@ -59,7 +59,7 @@ public class curr_chart_Controller {
             "Отчет - Без базы данных", "Отчет - база данных SQLite", "Отчет - база данных MySQL",
                  "Отчет - база данных PostgreSQL", "Отчет - база данных Oracle", "Отчет - база данных MSSQL",
                  "Отчет - база данных AzureSQL", "Отчет - база данных IBM DB2", "Отчет - база данных IBM Informix",
-                 "Отчет - база данных Firebird");
+                 "Отчет - база данных Firebird", "Отчет - база данных MongoDB");
     private static final String tec_kat = new File("").getAbsolutePath();
     private static final String tec_kat_curs = tec_kat + File.separator + "temp";
 
@@ -188,6 +188,7 @@ public class curr_chart_Controller {
             case 7 -> Report_All("IBMDB2");
             case 8 -> Report_All("IBMInformix");
             case 9 -> Report_All("Firebird");
+            case 10 -> Report_All("MongoDB");
             default -> Report_No_DB();
         }
     }
@@ -243,7 +244,7 @@ public class curr_chart_Controller {
 
         // Параметры для отчета
         Map<String, Object> parameters = new HashMap<>();
-        Connection connection = null;
+        Connection connection;
         switch (m_DB_type) {
             case "SQLite"      -> connection = ConnectionSQLite();
             case "MySQL"       -> connection = ConnectionMySQL();
@@ -254,6 +255,7 @@ public class curr_chart_Controller {
             case "IBMDB2"      -> connection = ConnectionIBMDB2();
             case "IBMInformix" -> connection = ConnectionIBMInformix();
             case "Firebird"    -> connection = ConnectionFirebird();
+            case "MongoDB"     -> connection = ConnectionMongoDB();
             default            -> connection = null;
         }
 
@@ -262,7 +264,7 @@ public class curr_chart_Controller {
             return;
         }
 
-        if (Security_mode_WA == true) {
+        if (Security_mode_WA) {
             file_name = "CurrencyChartFXMavenReport" + m_DB_type + "_WA";
         }
 
@@ -425,6 +427,8 @@ public class curr_chart_Controller {
         // Добавление данных в базу DB IBM Firebird
         AddTableFirebird(mCurrCode, mArray);
 
+        // Добавление данных в базу DB MongoDB
+        AddTableMongoDB(mCurrCode, mArray);
     }
 
     // Получить курс НБУ (С сайта JSON)
@@ -464,10 +468,10 @@ public class curr_chart_Controller {
         }
 
         // json
-        //Official hrivnya exchange rates.json - en
+        //Official hryvnia exchange rates.json - en
         //Офіційний курс гривні щодо іноземних валют.json - uk
         String m_file_name = file.getName();
-        if (m_file_name.equals("Official hrivnya exchange rates.json")) { p_name_date = "Date"; p_name_rate = "Unit"; p_name_curs = "Official hrivnya exchange rates, UAH"; }
+        if (m_file_name.equals("Official hryvnia exchange rates.json")) { p_name_date = "Date"; p_name_rate = "Unit"; p_name_curs = "Official hrivnya exchange rates, UAH"; }
         else if (m_file_name.equals("Офіційний курс гривні щодо іноземних валют.json")) { p_name_date = "Дата"; p_name_rate = "Кількість одиниць"; p_name_curs = "Офіційний курс гривні, грн"; }
 
         if (file.isFile()) {
@@ -853,6 +857,10 @@ public class curr_chart_Controller {
         private boolean Security_mode_WA;
         private boolean Rezult;
         private boolean IsEnable;
+        String MongoDBHost;
+        int MongoDBPort;
+        String MongoDBDatabase;
+        String MongoDBCollection;
 
         public ConnectionFileDataDB(String typeDB) {
 
@@ -884,34 +892,39 @@ public class curr_chart_Controller {
                                     case "DBInsertProcedure" -> DBInsertProcedure = reader.nextString();
                                     case "Security_mode_WA" -> Security_mode_WA = reader.nextBoolean();
                                     case "IsEnable" -> IsEnable = reader.nextBoolean();
+                                    case "MongoDBHost" -> MongoDBHost = reader.nextString();
+                                    case "MongoDBPort" -> MongoDBPort = reader.nextInt();
+                                    case "MongoDBDatabase" -> MongoDBDatabase = reader.nextString();
+                                    case "MongoDBCollection" -> MongoDBCollection = reader.nextString();
                                     default -> reader.skipValue();
                                 }
                             }
                             reader.endObject();
                             Rezult = true; // успешно
                         }
-                        else if (name.equals("Path_Report"))
-                        {
+                        else {
                             reader.beginObject();
-                            while (reader.hasNext()) {
-                                name = reader.nextName();
-                                switch (name) {
-                                    case "Path_template" -> Path_template = reader.nextString();
-                                    default -> reader.skipValue();
+                            if (name.equals("Path_Report"))
+                            {
+                                while (reader.hasNext()) {
+                                    name = reader.nextName();
+                                    if ("Path_template".equals(name)) {
+                                        Path_template = reader.nextString();
+                                    } else {
+                                        reader.skipValue();
+                                    }
                                 }
                             }
-                            reader.endObject();
-                        }
-                        else { // те которые пропускем, все равно проходим
-                            reader.beginObject();
-                            while (reader.hasNext()) { reader.skipValue(); }
+                            else { // те которые пропускем, все равно проходим
+                                while (reader.hasNext()) { reader.skipValue(); }
+                            }
                             reader.endObject();
                         }
                     }
                     reader.close();
 
                     if (Rezult) {
-                        if (Security_mode_WA == true && JDBCConnection_WA != null) {JDBCConnection = JDBCConnection_WA;};
+                        if (Security_mode_WA && JDBCConnection_WA != null) {JDBCConnection = JDBCConnection_WA;}
                     }
 
                     if (!Rezult && typeDB != null) {
@@ -1089,7 +1102,7 @@ public class curr_chart_Controller {
         catch(SQLException e)
         {
             connection = null;
-            System.out.println("ConnectionMySQL: " + e.getMessage().toString().replace("\n",""));
+            System.out.println("ConnectionMySQL: " + e.getMessage().replace("\n",""));
         }
         return connection;
     }
@@ -1553,8 +1566,6 @@ public class curr_chart_Controller {
         {
             connection = null;
             System.out.println("ConnectionFirebird: " + e.getMessage());
-            System.out.println(ConnDB.JDBCConnection);
-            //e.printStackTrace();
         }
         return connection;
     }
@@ -1602,6 +1613,33 @@ public class curr_chart_Controller {
                 Main.MessageBoxError(e.getMessage(), "Ошибка AddTableFirebird");
             }
         }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Подключение к DB MongoDB
+    public Connection ConnectionMongoDB()
+    {
+        ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("MongoDB");
+        if (ConnDB.GetRezult()) { return null; }
+
+        Connection connection;
+        try
+        {
+            // create a database connection
+            connection = DriverManager.getConnection(ConnDB.JDBCConnection);
+        }
+        catch(SQLException e)
+        {
+            connection = null;
+            System.out.println("ConnectionMongoDB: " + e.getMessage());
+        }
+        return connection;
+    }
+
+    // Добавление данных в базу MongoDB
+    public void AddTableMongoDB(String mCurrCode, String[][] mArray)
+    {
+        mongodb.AddTableMongoDB(mCurrCode, mArray);
     }
 
 }

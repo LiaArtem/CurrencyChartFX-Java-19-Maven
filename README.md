@@ -1,6 +1,6 @@
 # CurrencyChartFX-Java-19-Maven
 
-Maven JavaFX IntelliJ IDEA project - Java 19, JavaFX, Maven, JasperReports, JDBC (Oracle, MS SQL, Azure SQL, PostgreSQL, MySQL, IBM DB2, IBM Informix, Firebird, SQLite).
+Maven JavaFX IntelliJ IDEA project - Java 19, JavaFX, Maven, JasperReports, JDBC (Oracle, MS SQL, Azure SQL, PostgreSQL, MySQL, IBM DB2, IBM Informix, Firebird, SQLite, MongoDB).
 Construction of charts of currencies of NBU on years for watching of tendencies of change.
 
 Первичная настройка:

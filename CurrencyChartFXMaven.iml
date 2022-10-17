@@ -49,9 +49,12 @@
     <orderEntry type="library" name="Maven: com.microsoft.sqlserver:mssql-jdbc:11.2.1.jre18" level="project" />
     <orderEntry type="library" name="Maven: com.ibm.db2:jcc:11.5.7.0" level="project" />
     <orderEntry type="library" name="Maven: com.ibm.informix:jdbc:4.50.8" level="project" />
-    <orderEntry type="library" name="Maven: org.mongodb:bson:4.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.firebirdsql.jdbc:jaybird:4.0.6.java11" level="project" />
     <orderEntry type="library" name="Maven: javax.resource:connector-api:1.5" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr4-runtime:4.7.2" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:3.12.11" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:bson:4.7.2" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-nop:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:2.0.3" level="project" />
   </component>
 </module>

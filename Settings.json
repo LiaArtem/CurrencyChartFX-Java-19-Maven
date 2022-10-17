@@ -59,5 +59,13 @@
          "DBPassword": "12345678",
          "DBInsertProcedure": "INSERT_KURS",
          "IsEnable": true
+         },
+    "ConnectionMongoDB": {
+         "JDBCConnection": "jdbc:mongodb://localhost:27017/?authSource=testDB",
+         "MongoDBHost": "localhost",
+         "MongoDBPort": 27017,
+         "MongoDBDatabase": "testDB",
+         "MongoDBCollection": "Curs",
+         "IsEnable": true
          }
 }
