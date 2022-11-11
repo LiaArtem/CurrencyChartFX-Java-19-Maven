@@ -18,10 +18,10 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:19" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:19" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:19" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.9.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.10" level="project" />
     <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.3.1" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:javax.activation-api:1.2.0" level="project" />
-    <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.39.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.39.4.0" level="project" />
     <orderEntry type="library" name="Maven: net.sf.jasperreports:jasperreports:6.20.0" level="project" />
     <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.9.4" level="project" />
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
@@ -41,14 +41,14 @@
     <orderEntry type="library" name="Maven: org.codehaus.woodstox:stax2-api:4.2.1" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.woodstox:woodstox-core:6.2.7" level="project" />
     <orderEntry type="library" name="Maven: net.sf.jasperreports:jasperreports-fonts:6.20.0" level="project" />
-    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.30" level="project" />
+    <orderEntry type="library" name="Maven: com.mysql:mysql-connector-j:8.0.31" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.19.4" level="project" />
     <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.5.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.checkerframework:checker-qual:3.5.0" level="project" />
     <orderEntry type="library" name="Maven: com.oracle.database.jdbc:ojdbc11:21.7.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.microsoft.sqlserver:mssql-jdbc:11.2.1.jre18" level="project" />
-    <orderEntry type="library" name="Maven: com.ibm.db2:jcc:11.5.7.0" level="project" />
-    <orderEntry type="library" name="Maven: com.ibm.informix:jdbc:4.50.8" level="project" />
+    <orderEntry type="library" name="Maven: com.ibm.db2:jcc:11.5.8.0" level="project" />
+    <orderEntry type="library" name="Maven: com.ibm.informix:jdbc:4.50.9" level="project" />
     <orderEntry type="library" name="Maven: org.firebirdsql.jdbc:jaybird:4.0.6.java11" level="project" />
     <orderEntry type="library" name="Maven: javax.resource:connector-api:1.5" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr4-runtime:4.7.2" level="project" />
@@ -56,5 +56,6 @@
     <orderEntry type="library" name="Maven: org.mongodb:bson:4.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-nop:2.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:2.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.mariadb.jdbc:mariadb-java-client:3.0.8" level="project" />
   </component>
 </module>

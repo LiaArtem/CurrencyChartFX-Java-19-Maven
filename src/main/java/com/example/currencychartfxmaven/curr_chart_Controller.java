@@ -59,7 +59,7 @@ public class curr_chart_Controller {
             "Отчет - Без базы данных", "Отчет - база данных SQLite", "Отчет - база данных MySQL",
                  "Отчет - база данных PostgreSQL", "Отчет - база данных Oracle", "Отчет - база данных MSSQL",
                  "Отчет - база данных AzureSQL", "Отчет - база данных IBM DB2", "Отчет - база данных IBM Informix",
-                 "Отчет - база данных Firebird", "Отчет - база данных MongoDB");
+                 "Отчет - база данных Firebird", "Отчет - база данных MongoDB", "Отчет - база данных MariaDB");
     private static final String tec_kat = new File("").getAbsolutePath();
     private static final String tec_kat_curs = tec_kat + File.separator + "temp";
 
@@ -189,6 +189,7 @@ public class curr_chart_Controller {
             case 8 -> Report_All("IBMInformix");
             case 9 -> Report_All("Firebird");
             case 10 -> Report_All("MongoDB");
+            case 11 -> Report_All("MariaDB");
             default -> Report_No_DB();
         }
     }
@@ -256,6 +257,7 @@ public class curr_chart_Controller {
             case "IBMInformix" -> connection = ConnectionIBMInformix();
             case "Firebird"    -> connection = ConnectionFirebird();
             case "MongoDB"     -> connection = ConnectionMongoDB();
+            case "MariaDB"     -> connection = ConnectionMariaDB();
             default            -> connection = null;
         }
 
@@ -429,6 +431,10 @@ public class curr_chart_Controller {
 
         // Добавление данных в базу DB MongoDB
         AddTableMongoDB(mCurrCode, mArray);
+
+        // Добавление данных в базу DB MariaDB
+        AddTableMariaDB(mCurrCode, mArray);
+
     }
 
     // Получить курс НБУ (С сайта JSON)
@@ -910,6 +916,7 @@ public class curr_chart_Controller {
                                     name = reader.nextName();
                                     if ("Path_template".equals(name)) {
                                         Path_template = reader.nextString();
+                                        Path_template = Path_template.replace("%UserName%", System.getProperty("user.name"));
                                     } else {
                                         reader.skipValue();
                                     }
@@ -1639,7 +1646,77 @@ public class curr_chart_Controller {
     // Добавление данных в базу MongoDB
     public void AddTableMongoDB(String mCurrCode, String[][] mArray)
     {
+        // create a database connection
+        Connection connection = ConnectionMongoDB();
+        if (connection == null) { return; }
+
         mongodb.AddTableMongoDB(mCurrCode, mArray);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Подключение к DB MariaDB
+    public Connection ConnectionMariaDB()
+    {
+        ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("MariaDB");
+        if (ConnDB.GetRezult()) { return null; }
+
+        Connection connection;
+        try
+        {
+            // create a database connection
+            connection = DriverManager.getConnection(ConnDB.JDBCConnection, ConnDB.DBUser, ConnDB.DBPassword);
+        }
+        catch(SQLException e)
+        {
+            connection = null;
+            System.out.println("ConnectionMariaDB: " + e.getMessage().replace("\n",""));
+        }
+        return connection;
+    }
+
+    // Добавление данных в базу MariaDB
+    public void AddTableMariaDB(String mCurrCode, String[][] mArray)
+    {
+        Connection connection = null;
+        try {
+            // create a database connection
+            connection = ConnectionMariaDB();
+            if (connection == null) { return; }
+
+            ConnectionFileDataDB ConnDB = new ConnectionFileDataDB("MariaDB");
+
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+            for (int iii = 0; iii < mArray[0].length; iii++) {
+                String INSERT_SQL = "CALL `" + ConnDB.DBInsertSchema + "`.`" + ConnDB.DBInsertProcedure + "`(?, ?, ?);";
+                PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
+                ps.setString(1, mArray[0][iii].substring(0, 4) + "-" +
+                        mArray[0][iii].substring(4, 6) + "-" +
+                        mArray[0][iii].substring(6, 8) + " 00:00:00"
+                ); // TEXT как строки ISO8601 ("YYYY-MM-DD HH:MM:SS").
+                ps.setString(2, mCurrCode);
+                ps.setDouble(3, Main.getString_Double(mArray[1][iii]));
+                ps.executeUpdate();
+            }
+        }
+        catch(SQLException e)
+        {
+            Main.MessageBoxError(e.getMessage(), "Ошибка AddTableMariaDB");
+        }
+        finally
+        {
+            try
+            {
+                if(connection != null)
+                    connection.close();
+            }
+            catch(SQLException e)
+            {
+                // connection close failed.
+                Main.MessageBoxError(e.getMessage(), "Ошибка AddTableMariaDB");
+            }
+        }
     }
 
 }

@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 USE `test_schemas`;
 DROP procedure IF EXISTS `INSERT_CURS`;
 

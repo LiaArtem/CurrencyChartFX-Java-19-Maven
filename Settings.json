@@ -1,6 +1,6 @@
 {
     "Path_Report": {
-         "Path_template": "C:/Users/Admin/JaspersoftWorkspace/MyReports"
+         "Path_template": "C:/Users/artem/JaspersoftWorkspace/MyReports"
          },
     "ConnectionSQLite": {
          "JDBCConnection": "jdbc:sqlite:CurrencyChartFXMaven.db",
@@ -9,15 +9,23 @@
     "ConnectionMySQL": {
          "JDBCConnection": "jdbc:mysql://localhost:3306/test_schemas",
          "DBUser": "test_user",
-         "DBPassword": "12345678",
+         "DBPassword": "!Aa112233",
          "DBInsertSchema": "test_schemas",
          "DBInsertProcedure": "INSERT_CURS",
          "IsEnable": true
          },
+     "ConnectionMariaDB": {
+          "JDBCConnection": "jdbc:mariadb://localhost:3307/test_schemas",
+          "DBUser": "test_user",
+          "DBPassword": "!Aa112233",
+          "DBInsertSchema": "test_schemas",
+          "DBInsertProcedure": "INSERT_CURS",
+          "IsEnable": true
+     },
     "ConnectionPostgreSQL": {
-         "JDBCConnection": "jdbc:postgresql://localhost/test_database",
-         "DBUser": "test_user",
-         "DBPassword": "12345678",
+         "JDBCConnection": "jdbc:postgresql://localhost:5432/testdb",
+         "DBUser": "testdb",
+         "DBPassword": "!Aa112233",
          "DBInsertSchema": "test_schemas",
          "DBInsertProcedure": "INSERT_CURS",
          "IsEnable": true
@@ -25,14 +33,14 @@
     "ConnectionOracle": {
          "JDBCConnection": "jdbc:oracle:thin:@localhost:1521:XE",
          "DBUser": "TEST_USER",
-         "DBPassword": "TEST_USER",
+         "DBPassword": "!Aa112233",
          "DBInsertSchema": "TEST_USER",
          "DBInsertProcedure": "INSERT_KURS",
          "IsEnable": true
          },
     "ConnectionMSSQL": {
-         "JDBCConnection_WA": "jdbc:sqlserver://localhost;databaseName=DatabaseTestDB;integratedSecurity=true;encrypt=false;",
-         "JDBCConnection": "jdbc:sqlserver://localhost;databaseName=DatabaseTestDB;user=sa;password=12345678;encrypt=false;",
+         "JDBCConnection_WA": "jdbc:sqlserver://localhost;databaseName=DatabaseTestDBDocker;integratedSecurity=true;encrypt=false;",
+         "JDBCConnection": "jdbc:sqlserver://localhost;databaseName=DatabaseTestDBDocker;user=sa;password=!Aa112233;encrypt=false;",
          "DBInsertProcedure": "INSERT_KURS",
          "Security_mode_WA": false,
          "IsEnable": true
@@ -43,20 +51,20 @@
          "IsEnable": false
          },
     "ConnectionIBMDB2": {
-         "JDBCConnection": "jdbc:db2://localhost:25000/SAMPLE:user=db2admin;password=12345678;",
+         "JDBCConnection": "jdbc:db2://localhost:50000/SAMPLE:user=DB2INST1;password=!Aa112233;",
          "DBInsertSchema": "test_schemas",
          "DBInsertProcedure": "INSERT_KURS",
          "IsEnable": true
          },
     "ConnectionIBMInformix": {
-         "JDBCConnection": "jdbc:informix-sqli://localhost:9088/sysadmin:INFORMIXSERVER=informix_test;user=informix;password=12345678",
+         "JDBCConnection": "jdbc:informix-sqli://localhost:9088/sysadmin:INFORMIXSERVER=informix;user=informix;password=!Aa112233;DB_LOCALE=EN_US.8859-1;CLIENT_LOCALE=EN_US.8859-1;charSet=8859-1;",
          "DBInsertProcedure": "INSERT_KURS",
-         "IsEnable": true
+         "IsEnable": false
          },
     "ConnectionFirebird": {
-         "JDBCConnection": "jdbc:firebirdsql:localhost/3050:C:/Windows/System32/SAMPLEDATABASE.FDB?encoding=ISO8859_1",
+         "JDBCConnection": "jdbc:firebirdsql://localhost:3050//firebird/data/testdb.fdb?encoding=ISO8859_1",
          "DBUser": "SYSDBA",
-         "DBPassword": "12345678",
+         "DBPassword": "!Aa112233",
          "DBInsertProcedure": "INSERT_KURS",
          "IsEnable": true
          },

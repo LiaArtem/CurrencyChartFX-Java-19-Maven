@@ -1,14 +1,14 @@
 # CurrencyChartFX-Java-19-Maven
 
-Maven JavaFX IntelliJ IDEA project - Java 19, JavaFX, Maven, JasperReports, JDBC (Oracle, MS SQL, Azure SQL, PostgreSQL, MySQL, IBM DB2, IBM Informix, Firebird, SQLite, MongoDB).
+Maven JavaFX IntelliJ IDEA project - Java 19, JavaFX, Maven, JasperReports, JDBC (Oracle, MS SQL, Azure SQL, PostgreSQL, MySQL, MariaDB, IBM DB2, IBM Informix, Firebird, SQLite, MongoDB).
 Construction of charts of currencies of NBU on years for watching of tendencies of change.
 
 Первичная настройка:
 ---------------------------------------------------------------------------------
 - скачать и установить IntelliJ IDEA Community
 - скачать и установить Git
-- скачать и установить jdk-19_windows-x64_bin.exe (19.0.0)
-- скачать и установить SceneBuilder-18.0.0
+- скачать и установить jdk-19_windows-x64_bin.exe (19.0.1)
+- скачать и установить SceneBuilder-19.0.0
 - скачать и установить TIB_js-studiocomm_6.20.0_windows_x86_64.exe + запустить и закрыть.
 - настроить Github в IntelliJ IDEA Community (Settings - Version Control - Github)
 
@@ -39,7 +39,7 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
     - Компьютер\HKEY_LOCAL_MACHINE\SOFTWARE\ORACLE\KEY_OraDB21Home1 c AMERICAN_AMERICA.WE8MSWIN1252
       на NLS_LANG = AMERICAN_AMERICA.AL32UTF8 (либо AMERICAN_AMERICA.CL8MSWIN1251)
 
-  - Oracle SQL Developer выполяем скрипты из папки .\sql\oracle\
+  - Oracle SQL Developer выполняем скрипты из папки .\sql\oracle\
     - под пользователем SYS (1_CREATE_DATABASE_AND_USER.sql)
     - остальные под пользователем TEST_USER
     - !!! Перед загрузкой скриптов нужно настроить обязательно (экспорт таблиц выполнен в UTF-8).
@@ -47,7 +47,7 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
 
 ---------------------------------------------------------------------------------
 - MS SQL
-  - Microsoft SQL Server Management Studio выполяем скрипты из папки .\sql\mssql\
+  - Microsoft SQL Server Management Studio выполняем скрипты из папки .\sql\mssql\
     !!!! *.sql в меню (Query -> SQLCMD Mode)
 
   Для работы jdbc:
@@ -81,18 +81,22 @@ Construction of charts of currencies of NBU on years for watching of tendencies 
   - скачать Download Microsoft JDBC Driver for SQL Server - (sqljdbc_X.X.X.X_rus.zip).
   - Файл mssql-jdbc_auth-X.X.X.x64.dll скопировать в windows\system32 для подключения в java
 
-  - Microsoft SQL Server Management Studio 18 выполяем скрипты из папки .\sql\azuredb\
+  - Microsoft SQL Server Management Studio 18 выполняем скрипты из папки .\sql\azuredb\
     !!!! *.sql в меню (Query -> SQLCMD Mode)
 
 ---------------------------------------------------------------------------------
 - PostgreSQL
-  - DBeaver выполяем скрипты из папки .\sql\postgeesql\ (при подключении вкладка PostgreSQL отображать все базы данных)
+  - DBeaver выполняем скрипты из папки .\sql\postgeesql\ (при подключении вкладка PostgreSQL отображать все базы данных)
     - открыть SQL скрипт -> Выполнить SQL скрипт (Alt+X) (Файлы со скриптами в UTF8 - база в cp1251, при открытии могут быть иероглифы,
       тогда просто скопировать текст и вставить в окно SQL скрипта и выполнить)
 
 ---------------------------------------------------------------------------------
 - MySQL
-  - MySQL Workbench выполяем скрипты из папки .\sql\mysql\
+  - MySQL Workbench выполняем скрипты из папки .\sql\mysql\
+
+---------------------------------------------------------------------------------
+- MariaDB
+  - DBeaver выполняем скрипты из папки .\sql\mariadb\
 
 ---------------------------------------------------------------------------------
 - SQLite
@@ -144,6 +148,12 @@ IBM Informix
       - справа -> Обзор источников данных -> Соединения базы данных -> sample -> informix -> Хранимые процедуры -> правой New Stored Procedure (Имя любое) -> Готово
       - заменяем текст из файла .\sql\IBM Informix\4_CREATE PROCEDURE.spsql
       - жмем маленькую кнопку - Deploy the routine to the database server -> Готово
+
+---------------------------------------------------------------------------------
+- Firebird
+     - DBeaver выполняем скрипты из папки .\sql\firebird\
+     - если установлен локально - подключение:
+       jdbc:firebirdsql:localhost/3050:C:/Windows/System32/SAMPLEDATABASE.FDB?encoding=ISO8859_1
 
 ---------------------------------------------------------------------------------
 Сборка:

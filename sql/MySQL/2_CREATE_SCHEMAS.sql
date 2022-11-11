@@ -1,1 +1,1 @@
-CREATE SCHEMA `test_schemas` DEFAULT CHARACTER SET cp1251 ;
+CREATE SCHEMA `test_schemas`;
